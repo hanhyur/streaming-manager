@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  app:
+    image: openjdk:17
+    container_name: streaming-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ./gradlew bootRun
+  db:
+    image: postgres:15
+    container_name: streaming-db
+    environment:
+      POSTGRES_USER: streaming_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: streaming
+    ports:
+      - "5432:5432"
