@@ -2,7 +2,9 @@ package me.owen.streaming.streamingmanager.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import me.owen.streaming.streamingmanager.domain.SocialType;
 import me.owen.streaming.streamingmanager.domain.User;
 import me.owen.streaming.streamingmanager.dto.RegisterRequest;
 import me.owen.streaming.streamingmanager.repository.UserRepository;
@@ -19,6 +21,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
+    @Transactional
     public User registerUser(RegisterRequest request) {
         userRepository.findByEmailAndDeactivatedAtIsNull(request.email())
                 .ifPresent(u -> {
@@ -40,13 +43,16 @@ public class UserService {
         return savedUser;
     }
 
-    public void verityEmail(String token) {
+    @Transactional
+    public String verityEmail(String token) {
         User user = userRepository.findByVerificationToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 토큰입니다."));
 
         user.verifyEmail();
 
         userRepository.save(user);
+
+        return "이메일 인증이 완료되었습니다.";
     }
 
     private void sendVerificationEmail(User user) {
@@ -65,6 +71,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void deactivateUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
@@ -72,6 +79,21 @@ public class UserService {
         user.deactivate();
 
         userRepository.save(user);
+    }
+
+    @Transactional
+    public User processGoogleUser(String email, String sub) {
+        return userRepository.findBySub(sub)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .email(email)
+                            .password("") // Google 이용자는 password가 필요하지 않음
+                            .socialType(SocialType.GOOGLE)
+                            .sub(sub)
+                            .build();
+
+                    return userRepository.save(newUser);
+                });
     }
 
 }

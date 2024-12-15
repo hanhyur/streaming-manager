@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmailAndDeactivatedAtIsNull(String email);
 
+    Optional<User> findBySub(String sub); // Google 사용자 검색
+
 }

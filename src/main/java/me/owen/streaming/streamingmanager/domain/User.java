@@ -33,13 +33,18 @@ public class User extends BaseEntity {
 
     private LocalDateTime deactivatedAt;
 
+    @Column(unique = true)
+    private String sub; // Google user unique ID
+
     @Builder
-    public User(String email, String password, SocialType socialType) {
+    public User(String email, String password, SocialType socialType, String sub) {
         this.email = email;
         this.password = password;
         this.socialType = socialType != null ? socialType : SocialType.NONE;
         this.emailVerified = false;
         this.verificationToken = UUID.randomUUID().toString();
+
+        this.sub = sub;
     }
 
     public void verifyEmail() {
