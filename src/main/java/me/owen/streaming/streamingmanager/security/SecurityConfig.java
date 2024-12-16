@@ -1,6 +1,6 @@
-package me.owen.streaming.streamingmanager.config.security;
+package me.owen.streaming.streamingmanager.security;
 
-import me.owen.streaming.streamingmanager.config.security.auth.GoogleOAuth2UserService;
+import me.owen.streaming.streamingmanager.security.auth.GoogleOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

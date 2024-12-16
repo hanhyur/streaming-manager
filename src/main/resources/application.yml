@@ -36,3 +36,17 @@ spring:
             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
             token-uri: https://oauth2.googleapis.com/token
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
+youtube:
+  api:
+    key: YOUR_YOUTUBE_API_KEY
+  oauth2:
+    client-id: YOUR_YOUTUBE_CLIENT_ID
+    client-secret: YOUR_YOUTUBE_CLIENT_SECRET
+    redirect-uri: http://localhost:8080/oauth2/callback/youtube
+
+twitch:
+  oauth2:
+    client-id: YOUR_TWITCH_CLIENT_ID
+    client-secret: YOUR_TWITCH_CLIENT_SECRET
+    redirect-uri: http://localhost:8080/oauth2/callback/twitch

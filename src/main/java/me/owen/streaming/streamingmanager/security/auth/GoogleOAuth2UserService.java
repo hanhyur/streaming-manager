@@ -1,4 +1,4 @@
-package me.owen.streaming.streamingmanager.config.security.auth;
+package me.owen.streaming.streamingmanager.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import me.owen.streaming.streamingmanager.service.UserService;
